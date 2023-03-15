@@ -1,62 +1,44 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-import Input from './Input';
+import { GlobalStyles } from '../../constants/styles';
 
-function ExpenseForm() {
-  function amountChangedHandler() {}
+function Input({ label, style, textInputConfig }) {
+
+  const inputStyles = [styles.input];
+
+  if (textInputConfig && textInputConfig.multiline) {
+    inputStyles.push(styles.inputMultiline)
+  }
 
   return (
-    <View style={styles.form}>
-      <Text style={styles.title}>Your Expense</Text>
-      <View style={styles.inputsRow}>
-        <Input
-          style={styles.rowInput}
-          label="Amount"
-          textInputConfig={{
-            keyboardType: 'decimal-pad',
-            onChangeText: amountChangedHandler,
-          }}
-        />
-        <Input
-          style={styles.rowInput}
-          label="Date"
-          textInputConfig={{
-            placeholder: 'YYYY-MM-DD',
-            maxLength: 10,
-            onChangeText: () => {},
-          }}
-        />
-      </View>
-      <Input
-        label="Description"
-        textInputConfig={{
-          multiline: true,
-          // autoCapitalize: 'none'
-          // autoCorrect: false // default is true
-        }}
-      />
+    <View style={[styles.inputContainer, style]}>
+      <Text style={styles.label}>{label}</Text>
+      <TextInput style={inputStyles} {...textInputConfig} />
     </View>
   );
 }
 
-export default ExpenseForm;
+export default Input;
 
 const styles = StyleSheet.create({
-  form: {
-    marginTop: 40,
+  inputContainer: {
+    marginHorizontal: 4,
+    marginVertical: 8
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    marginVertical: 24,
-    textAlign: 'center'
+  label: {
+    fontSize: 12,
+    color: GlobalStyles.colors.primary100,
+    marginBottom: 4,
   },
-  inputsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  input: {
+    backgroundColor: GlobalStyles.colors.primary100,
+    color: GlobalStyles.colors.primary700,
+    padding: 6,
+    borderRadius: 6,
+    fontSize: 18,
   },
-  rowInput: {
-    flex: 1,
-  },
+  inputMultiline: {
+    minHeight: 100,
+    textAlignVertical: 'top'
+  }
 });
